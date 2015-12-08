@@ -1,8 +1,8 @@
 # To run the site:
-cd elweb
-npm install
-set DEBUG=elweb:*
-npm start
+1. cd elweb
+1. npm install
+1. set DEBUG=elweb:*
+1. npm start
 
 # expiralink
 Links and their expiration. For when you want to remember something, but not forever.
