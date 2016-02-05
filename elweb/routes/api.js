@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var redis = require('redis');
 
-var redisClient = require('redis').createClient(6379, '192.168.99.100');
+var redisClient = redis.createClient(6379, '192.168.99.100');
 redisClient.on('connect',function(err){
 	console.log(err);
 	console.log('connect :)');
