@@ -38,7 +38,6 @@ router.get('/', function(req, res, next) {
 
 /* GET all links. */
 router.get('/links', function(req, res, next) {
-  res.send(links);
   client.get('favorite', function(err, reply){
   	res.send(reply);  	
   })
