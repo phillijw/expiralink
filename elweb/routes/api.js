@@ -2,12 +2,20 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 
-
 var redis = require('redis');
-var client = redis.createClient(6379, "192.168.99.100"); //creates a new client
 
-client.on('connect', function() {
-    console.log('connected to redis');
+var client = redis.createClient(6379, "192.168.99.100"); //creates a new client
+client.on('connect', function() { console.log('connected to redis'); });
+client.flushdb(function (err, success) {});
+client.set('next_user_id', 1, redis.print);
+client.hset('users:1', 'username', 'admin', redis.print);
+client.hset('logins:admin', "id", 1, redis.print);
+client.incr('next_user_id', function (err, reply) {});
+client.zadd('links:1', (new Date).getTime(), "http://expira.link");
+client.zadd('links:1', (new Date).getTime(), "http://google.com");
+
+client.zrevrangebyscore([ 'links:1', 9999999999999, 0 ], function (err, response) {
+    console.log('response: ' + response);
 });
 
 var links = {};
