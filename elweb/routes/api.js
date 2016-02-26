@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-
 var redis = require('redis');
 
 var client = redis.createClient(6379, "192.168.99.100"); //creates a new client
@@ -52,14 +51,24 @@ router.get('/links', function(req, res, next) {
 });
 
 /* GET a user's links. */
-router.get('/links/:user', function(req, res, next) {
-  res.send(links[req.params.user]);
+router.get('/links/:userId', function(req, res, next) {
+    var startTime = 0;
+    var endTime = (new Date).getTime();
+    var id = req.params.userId; //TODO: Verify user has access to get this user's links
+    client.zrevrangebyscore([ 'links:'+id, endTime, startTime ], function (err, response) {
+        if (err)
+            res.json({ "error": err });
+            
+        res.json({ "userId" : id, "links" : response });
+    });
 });
 
 router.post('/links', function(req, res, next){
-	console.log(req.body.favorite);
-	client.set('favorite', req.body.favorite);
-	res.send('Ok');
+    var userId = req.body.userId; //TODO: Verify user has access to add to this user's links
+    var stamp = (new Date).getTime();
+    var url = req.body.url;
+    client.zadd('links:'+userId, stamp, url);
+	res.json({ "timestamp" : stamp, "url" : url });
 });
 
 module.exports = router;
