@@ -68,7 +68,7 @@ router.post('/links', function(req, res, next){
     var stamp = (new Date).getTime();
     var url = req.body.url;
     client.zadd('links:'+userId, stamp, url);
-	res.json({ "timestamp" : stamp, "url" : url });
+    res.json({ "timestamp" : stamp, "url" : url });
 });
 
 module.exports = router;
