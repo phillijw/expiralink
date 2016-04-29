@@ -9,6 +9,7 @@ This amazing application is built in node.js, because that's what all the cool k
 1. `npm install`
 1. `set DEBUG=elweb:*`
 1. `npm start`
+
 The site will be active on `http://localhost:3000/`
 
 The elweb app expects there to be a redis instance somewhere. It should probably have some sort of graceful failure, or wait time and retry if a redis container isn't found, but you'll want one running anyway. There's an easy way to do this if you have docker installed.
